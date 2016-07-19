@@ -2,29 +2,26 @@ require('config')
 require('digits')
 require('shiftout')
 
-tmr.alarm(1, 1000, 1, function()
-    -- Enable all outputs
-    gpio.write(pins.output, 0)
+function refresh(duty)
+    for pin = 5, 8 do
+        -- Keep current output status
+        gpio.write(pins.latch, 0)
+        shiftout(digits[9 - pin])
 
-    for i = 1, 50 do
-        for pin = 5, 8 do
-            -- Keep current output status
-            gpio.write(pins.latch, 0)
-            shiftout(digits[9 - pin])
+        -- Deactivate the previous digit place
+        pwm.setduty(pin ~= 5 and pin - 1 or 8, 0)
 
-            -- Deactivate the previous digit place
-            if pin ~= 5 then
-                gpio.write(pin - 1, 0)
-            else
-                gpio.write(8, 0)
-            end
-
-            -- Transfer changes to output pins
-            gpio.write(pins.latch, 1)
-            gpio.write(pin, 1)
-        end
+        -- Transfer changes to output pins
+        gpio.write(pins.latch, 1)
+        pwm.setduty(pin, duty)
     end
+end
 
-    -- Disable all outputs
-    gpio.write(pins.output, 1)
+tmr.alarm(0, 1000, tmr.ALARM_AUTO, function()
+    for duty = 0, 1000, 40 do
+        refresh(duty)
+    end
+    for duty = 1000, 0, -40 do
+        refresh(duty)
+    end
 end)

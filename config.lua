@@ -12,8 +12,10 @@ pins = {
 for name, pin in pairs(pins) do
     gpio.mode(pin, gpio.OUTPUT)
 end
+gpio.write(pins.output, 0)
 
 -- Pins for different digit places
 for pin = 5, 8 do
     gpio.mode(pin, gpio.OUTPUT)
+    pwm.setup(pin, 1000, 0)
 end
