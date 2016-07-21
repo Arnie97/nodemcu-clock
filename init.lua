@@ -2,6 +2,7 @@ require('config')
 require('digits')
 require('divmod')
 require('shiftout')
+require('sync')
 
 function time()
     local date, hour = divmod(rtctime.get() + 8 * 3600, 86400)

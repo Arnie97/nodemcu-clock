@@ -1,6 +1,13 @@
 -- Avoid LED flickering
 node.setcpufreq(160)
 
+-- Wireless configuration
+sync = {
+    ssid = 'Minimalist Silverbridge',
+    password = '',
+    server = 'pool.ntp.org'
+}
+
 -- Pinout for 74HC595
 pins = {
     data   = 3, -- SER
