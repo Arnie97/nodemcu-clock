@@ -19,6 +19,7 @@ wifi.sta.eventMonReg(wifi.STA_GOTIP, function()
                 'Timeout, no NTP response received'
             }
             print('Error: ' .. msg[err])
+            wifi.sta.disconnect()
         end
     )
 end)

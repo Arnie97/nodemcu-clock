@@ -29,10 +29,18 @@ end
 
 tmr.alarm(0, 1000, tmr.ALARM_AUTO, function()
     local text = {time()}
-    for duty = 0, 1000, 40 do
+    for duty = 0, 800, 100 do
         refresh(text, duty)
     end
-    for duty = 1000, 0, -40 do
+    for duty = 800, 1000, 10 do
+        refresh(text, duty)
+    end
+    for duty = 1000, 800, -10 do
+        refresh(text, duty)
+    end
+    for duty = 800, 0, -100 do
         refresh(text, duty)
     end
 end)
+
+print('Initializing sequence completed')
